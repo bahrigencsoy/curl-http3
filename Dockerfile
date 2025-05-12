@@ -1,7 +1,6 @@
 FROM ubuntu:noble
 RUN apt update
 RUN apt install -y build-essential git autoconf libtool pkg-config autotools-dev libpsl-dev libidn2-dev libgsasl-dev
-# RUN dpkg -r --force-depends openssl
 
 ARG OPENSSL_VERSION=3.5.0
 RUN cd / && \
@@ -13,7 +12,7 @@ RUN cd / && \
 
 ARG NGHTTP3_VERSION=v1.9.0
 RUN cd / && \
- git clone -b $NGHTTP3_VERSION https://github.com/ngtcp2/nghttp3 && \
+ git clone -b $NGHTTP3_VERSION --depth=1 https://github.com/ngtcp2/nghttp3 && \
  cd nghttp3 && \
  git submodule update --init && \
  autoreconf -fi && \
@@ -23,7 +22,7 @@ RUN cd / && \
 
 ARG NGTCP2_VERSION=v1.12.0
 RUN cd / && \
- git clone -b $NGTCP2_VERSION https://github.com/ngtcp2/ngtcp2 && \
+ git clone -b $NGTCP2_VERSION --depth=1 https://github.com/ngtcp2/ngtcp2 && \
  cd ngtcp2 && \
  git submodule update --init && \
  autoreconf -fi && \
@@ -33,7 +32,7 @@ RUN cd / && \
 
 ARG CURL_VERSION=master
 RUN cd / && \
- git clone -b $CURL_VERSION https://github.com/curl/curl && \
+ git clone -b $CURL_VERSION --depth=1 https://github.com/curl/curl && \
  cd curl && \
  autoreconf -fi && \
  LDFLAGS="-Wl,-rpath,/opt/openssl/lib" ./configure --with-openssl=/opt/openssl --with-nghttp3=/opt/nghttp --with-ngtcp2=/opt/ngtcp && \
