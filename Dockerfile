@@ -49,3 +49,5 @@ RUN cd / && \
  make install
 
 ENV LD_LIBRARY_PATH=/usr/local/lib:/opt/openssl/lib
+
+ENTRYPOINT ["curl"]
