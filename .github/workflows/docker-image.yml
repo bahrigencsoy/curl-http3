@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  LATEST_TAG: $(date +%s)
+  LATEST_TAG: curl-http3:latest
 
 jobs:
 
@@ -18,6 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:${{ env.LATEST_TAG }}
+      run: docker build . --file Dockerfile --tag ${{ env.LATEST_TAG }}
     - name: Test
-      run: docker run --rm -it my-image-name:${{ env.LATEST_TAG }} --http3-only -v https://google.com
+      run: docker run --rm ${{ env.LATEST_TAG }} --http3-only -v https://google.com
