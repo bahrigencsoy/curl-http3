@@ -3,7 +3,7 @@ RUN apt update
 RUN apt install -y build-essential git autoconf libtool pkg-config autotools-dev libpsl-dev libidn2-dev libgsasl-dev
 
 FROM base AS stage-openssl
-ARG OPENSSL_VERSION=3.5.0
+ARG OPENSSL_VERSION=3.6.0
 RUN cd / && \
  git clone --quiet --depth=1 -b openssl-$OPENSSL_VERSION https://github.com/openssl/openssl && \
  cd openssl && \
@@ -12,7 +12,7 @@ RUN cd / && \
  make install
 
 FROM base AS stage-nghttp
-ARG NGHTTP3_VERSION=v1.9.0
+ARG NGHTTP3_VERSION=v1.12.0
 RUN cd / && \
  git clone -b $NGHTTP3_VERSION --depth=1 https://github.com/ngtcp2/nghttp3 && \
  cd nghttp3 && \
