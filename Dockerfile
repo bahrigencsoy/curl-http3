@@ -39,7 +39,7 @@ FROM base AS stage-curl
 COPY --from=stage-openssl /opt/openssl /opt/openssl
 COPY --from=stage-nghttp /opt/nghttp /opt/nghttp
 COPY --from=stage-ngtcp /opt/ngtcp /opt/ngtcp
-ARG CURL_VERSION=master
+ARG CURL_VERSION=curl-8_16_0
 RUN cd / && \
  git clone -b $CURL_VERSION --depth=1 https://github.com/curl/curl && \
  cd curl && \
@@ -49,5 +49,4 @@ RUN cd / && \
  make install
 
 ENV LD_LIBRARY_PATH=/usr/local/lib:/opt/openssl/lib
-
 ENTRYPOINT ["curl"]
