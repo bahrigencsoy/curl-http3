@@ -25,7 +25,7 @@ RUN cd / && \
 FROM base AS stage-ngtcp
 COPY --from=stage-openssl /opt/openssl /opt/openssl
 COPY --from=stage-nghttp /opt/nghttp /opt/nghttp
-ARG NGTCP2_VERSION=v1.12.0
+ARG NGTCP2_VERSION=v1.17.0
 RUN cd / && \
  git clone -b $NGTCP2_VERSION --depth=1 https://github.com/ngtcp2/ngtcp2 && \
  cd ngtcp2 && \
@@ -44,7 +44,7 @@ RUN cd / && \
  git clone -b $CURL_VERSION --depth=1 https://github.com/curl/curl && \
  cd curl && \
  autoreconf -fi && \
- LDFLAGS="-Wl,-rpath,/opt/openssl/lib" ./configure --with-openssl=/opt/openssl --with-nghttp3=/opt/nghttp --with-ngtcp2=/opt/ngtcp && \
+ LDFLAGS="-Wl,-rpath,/opt/openssl/lib" ./configure PKG_CONFIG_PATH=/opt/openssl/lib/pkgconfig:/opt/nghttp/lib/pkgconfig:/opt/ngtcp2/lib/pkgconfig --with-openssl=/opt/openssl --with-nghttp3=/opt/nghttp --with-ngtcp2=/opt/ngtcp && \
  make && \
  make install
 
