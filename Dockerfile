@@ -48,5 +48,14 @@ RUN cd / && \
  make && \
  make install
 
+
+FROM ubuntu:noble
+RUN apt update && apt upgrade -y && apt install -y libpsl5t64 ca-certificates
+COPY --from=stage-openssl /opt/openssl /opt/openssl
+COPY --from=stage-nghttp /opt/nghttp /opt/nghttp
+COPY --from=stage-ngtcp /opt/ngtcp /opt/ngtcp
+COPY --from=stage-curl /usr/local/bin/curl /usr/local/bin/curl
+COPY --from=stage-curl /usr/local/lib/libcurl.so.4 /usr/local/lib/libcurl.so.4
+
 ENV LD_LIBRARY_PATH=/usr/local/lib:/opt/openssl/lib
 ENTRYPOINT ["curl"]
