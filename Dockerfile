@@ -3,7 +3,7 @@ RUN apt update
 RUN apt install -y build-essential git autoconf libtool pkg-config autotools-dev libpsl-dev libidn2-dev libgsasl-dev
 
 FROM base AS stage-openssl
-ARG OPENSSL_VERSION=3.6.1
+ARG OPENSSL_VERSION=3.6.5
 RUN cd / && \
  git clone --quiet --depth=1 -b openssl-$OPENSSL_VERSION https://github.com/openssl/openssl && \
  cd openssl && \
@@ -12,7 +12,7 @@ RUN cd / && \
  make install
 
 FROM base AS stage-nghttp
-ARG NGHTTP3_VERSION=v1.15.0
+ARG NGHTTP3_VERSION=v1.18.0
 RUN cd / && \
  git clone -b $NGHTTP3_VERSION --depth=1 https://github.com/ngtcp2/nghttp3 && \
  cd nghttp3 && \
@@ -25,7 +25,7 @@ RUN cd / && \
 FROM base AS stage-ngtcp
 COPY --from=stage-openssl /opt/openssl /opt/openssl
 COPY --from=stage-nghttp /opt/nghttp /opt/nghttp
-ARG NGTCP2_VERSION=v1.20.0
+ARG NGTCP2_VERSION=v1.25.0
 RUN cd / && \
  git clone -b $NGTCP2_VERSION --depth=1 https://github.com/ngtcp2/ngtcp2 && \
  cd ngtcp2 && \
@@ -39,7 +39,7 @@ FROM base AS stage-curl
 COPY --from=stage-openssl /opt/openssl /opt/openssl
 COPY --from=stage-nghttp /opt/nghttp /opt/nghttp
 COPY --from=stage-ngtcp /opt/ngtcp /opt/ngtcp
-ARG CURL_VERSION=curl-8_18_0
+ARG CURL_VERSION=curl-8_23_0
 RUN cd / && \
  git clone -b $CURL_VERSION --depth=1 https://github.com/curl/curl && \
  cd curl && \
