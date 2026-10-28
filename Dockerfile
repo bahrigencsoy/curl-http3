@@ -7,7 +7,7 @@ ARG OPENSSL_VERSION=3.6.5
 RUN cd / && \
  git clone --quiet --depth=1 -b openssl-$OPENSSL_VERSION https://github.com/openssl/openssl && \
  cd openssl && \
- ./config --prefix=/opt/openssl --libdir=lib && \
+ ./config --prefix=/opt/openssl --libdir=lib no-tests no-docs && \
  make && \
  make install
 
